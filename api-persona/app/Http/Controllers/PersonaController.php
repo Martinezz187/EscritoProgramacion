@@ -16,11 +16,7 @@ class PersonaController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function create()
     {
         //
@@ -79,11 +75,6 @@ class PersonaController extends Controller
             'status' => 200
         ];
         return response()->json($data, 200);
-    }
-
-    public function edit(persona $persona)
-    {
-        //
     }
 
     public function update(Request $request, $id)
