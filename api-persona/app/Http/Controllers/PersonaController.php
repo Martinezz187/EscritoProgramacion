@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\persona;
 use Illuminate\Http\Request;
+use illuminate\Support\Facades\Validator;
 
 class PersonaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $persona = Persona::all();
+        if ($persona->isEmpty()) {
+            return response()->json(['message' => 'No hay personas agregadas'], 200);
+        }
     }
 
     /**
@@ -26,16 +25,9 @@ class PersonaController extends Controller
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

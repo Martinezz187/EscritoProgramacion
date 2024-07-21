@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\http\controllers\api\PersonaController;
+
+Route::get('/personas', [PersonaController::class, 'index']);
 
 Route::get('/personas', function ()  {
     return 'Lista de personas';
