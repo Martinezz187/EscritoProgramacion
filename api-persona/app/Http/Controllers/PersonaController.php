@@ -28,86 +28,113 @@ class PersonaController extends Controller
     public function store(Request $request)
     {
         $validator = validator::make($request->all(), [
-            'id' => 'required',
             'nombre' => 'required',
             'apellido' => 'required',
             'telefono' => 'required',
         ]);
 
         if ($validator ->fails()) {
-            $datos = [
+            $data = [
                 'message' => 'Error en ingresar los datos.',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
-            return response()->json($datos, 400);
+            return response()->json($data, 400);
 
         }
         $persona = Persona::create([
-            'id' => $request->id,
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'telefono' => $request->telefono
-
         ]);
 
         if (!$persona) {
-            $datos = [
+            $data = [
                 'message' => 'Error al agregar una persona',
                 'status' => 500
             ];
-            return response()->json($datos, 500);
+            return response()->json($data, 500);
         }
 
-        $datos = [
+        $data = [
             'persona' => $persona,
             'status' => 201
         ];
-        return response()->json($datos, 201);
+        return response()->json($data, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function show(persona $persona)
+    public function show($id)
     {
-        //
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $data = [
+                'message' => 'No se encontro a la persona',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+        $data = [
+            'persona' => $persona,
+            'status' => 200
+        ];
+        return response()->json($data, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\persona  $persona
-     * @return \Illuminate\Http\Response
-     */
     public function edit(persona $persona)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, persona $persona)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $persona = Persona::find($id);
+        if (!$persona) {
+            $data = [
+                'message' => 'No se encontro a la persona',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\persona  $persona
-     * @return \Illuminate\Http\Response
-     */
+        $validator = validator::make($request->all(), [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'telefono' => 'required',
+        ]);
+
+        $persona->nombre = $request->nombre;
+        $persona->apellido = $request->apellido;
+        $persona->telefono = $request->telefono;
+
+        $persona->save();
+
+        $data = [
+            'message' => 'Se actualizo los datos de la persona.',
+            'persona' => $persona,
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
+    
+
     public function destroy(persona $persona)
     {
-        //
+        $persona = Persona::find($id);
+        if (!$persona) {
+            $data = [
+                'message' => 'No se encontro a la persona',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $student->delete();
+
+        $data = [
+            'message' => 'Persona eliminada correctamente',
+            'status' => 200
+        ];
+        return response()->json($data, 200);
     }
 }

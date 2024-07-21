@@ -7,25 +7,14 @@ use App\http\controllers\api\PersonaController;
 
 Route::get('/personas', [PersonaController::class, 'index']);
 
-Route::get('/personas', function ()  {
-    return 'Lista de personas';
-});
 
-Route::get('/personas/{id}', function ()  {
-    return 'Busqueda de una persona';
-});
+Route::get('/personas/{id}', [PersonaController::class, 'show']);
 
-Route::post('/personas', function ()  {
-    return 'Agregar personas';
-});
+Route::post('/personas', [PersonaController::class, 'store']);
 
-Route::delete('/personas/{id}', function ()  {
-    return 'Eliminar personas';
-});
+Route::delete('/personas/{id}', [PersonaController::class, 'destroy']);  
 
-Route::put('/personas/{id}', function ()  {
-    return 'Actualizar personas';
-});
+Route::put('/personas/{id}',[PersonaController::class, 'update']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
