@@ -27,7 +27,43 @@ class PersonaController extends Controller
     }
     public function store(Request $request)
     {
-        
+        $validator = validator::make($request->all(), [
+            'id' => 'required',
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'telefono' => 'required',
+        ]);
+
+        if ($validator ->fails()) {
+            $datos = [
+                'message' => 'Error en ingresar los datos.',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ];
+            return response()->json($datos, 400);
+
+        }
+        $persona = Persona::create([
+            'id' => $request->id,
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'telefono' => $request->telefono
+
+        ]);
+
+        if (!$persona) {
+            $datos = [
+                'message' => 'Error al agregar una persona',
+                'status' => 500
+            ];
+            return response()->json($datos, 500);
+        }
+
+        $datos = [
+            'persona' => $persona,
+            'status' => 201
+        ];
+        return response()->json($datos, 201);
     }
 
     /**
