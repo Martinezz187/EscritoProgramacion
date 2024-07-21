@@ -8,6 +8,10 @@ Route::get('/personas', function ()  {
     return 'Lista de personas';
 });
 
+Route::get('/personas/{id}', function ()  {
+    return 'Busqueda de una persona';
+});
+
 Route::post('/personas', function ()  {
     return 'Agregar personas';
 });
